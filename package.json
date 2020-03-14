@@ -1,0 +1,33 @@
+{
+  "name": "ddg-vs-google",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@material-ui/core": "^4.9.5",
+    "@material-ui/icons": "^4.9.1",
+    "@types/cheerio": "^0.22.16",
+    "@types/request-promise": "^4.1.45",
+    "cheerio": "^1.0.0-rc.3",
+    "next": "^9.3.0",
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.5",
+    "tslib": "^1.11.1"
+  },
+  "devDependencies": {
+    "@types/react": "^16.9.23",
+    "typescript": "^3.8.3",
+    "webpack-cli": "^3.3.11"
+  }
+}
