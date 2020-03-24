@@ -1,19 +1,8 @@
 import { Box, Chip, CircularProgress, createStyles, Divider, makeStyles, Theme, Typography } from "@material-ui/core"
 import Paper from "@material-ui/core/Paper"
-import React, { useContext } from "react"
+import React, { useContext, useRef } from "react"
 import SearchResultsTable from "../src/components/SearchResultsTable"
 import { AppContext } from "../src/context/AppContext"
-
-interface IndexProps {
-  googleResults: SearchResult[]
-  ddgResults: SearchResult[]
-  setGoogleResults: (res: SearchResult[]) => void
-  setDdgResults: (res: SearchResult[]) => void
-  search: string
-  setSearch: (search: string) => void
-  isLoading: boolean
-  setIsLoading: (loading: boolean) => void
-}
 
 const Index = () => {
     const context = useContext(AppContext)
@@ -49,6 +38,16 @@ const Index = () => {
         entertainment: ["eminem fast song", "news guy spider man actor"],
         programming: ["css center text", "implicits scala 3.0", "regex match .com", "tsfiddle", "nextjs source map"],
     }
+    const scrollToRef = (ref: React.MutableRefObject<any>) =>
+      window.scrollTo({left: 0, top: ref.current.offsetTop, behavior: "smooth"})
+
+    const resultsRef = useRef(null)
+    const scrollToResults = () => scrollToRef(resultsRef)
+
+    if (context.googleResults?.length > 0 && context.ddgResults?.length > 0) {
+      scrollToResults()
+    }
+
     return(
         <React.Fragment>
             <Box my={4} style={{display: "inline-block"}}>
@@ -61,19 +60,25 @@ const Index = () => {
                             <Chip
                                 key={`${category}${term}`}
                                 style={{margin: 10}}
-                                label={term} onClick={() => {context.setSearch(term); context.runSearch(term)}}
+                                label={term}
+                                onClick={() => {context.setSearch(term); context.runSearch(term)}}
                             />)
                         }
                     </Paper>,
                 )}
             </Box>
             <Divider />
-            <Box my={4}>
-                {context.isLoading && <CircularProgress />}
-                {context.googleResults !== undefined && context.ddgResults !== undefined &&
-                    <SearchResultsTable resultsLeft={context.googleResults} resultsRight={context.ddgResults}/>
-                }
-            </Box>
+            <div ref={resultsRef}>
+              <Box my={4}>
+                  {context.isLoading && <CircularProgress />}
+                  {context.googleResults !== undefined && context.ddgResults !== undefined &&
+                      <SearchResultsTable
+                        resultsLeft={context.googleResults}
+                        resultsRight={context.ddgResults}
+                      />
+                  }
+              </Box>
+            </div>
         </React.Fragment>
     )
 }

@@ -46,7 +46,7 @@ export default class MyApp extends App {
           <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         </Head>
         <AppToolbar/>
-        <Container maxWidth="lg">
+        <Container maxWidth="lg" style={{marginTop: "64px"}}>
           <Component {...pageProps} />
         </Container>
       </AppContext.Provider>

@@ -1,7 +1,8 @@
-import { AppBar, IconButton, InputAdornment, Link, makeStyles, TextField, Toolbar, Typography } from "@material-ui/core"
+import { AppBar, IconButton, InputAdornment, Link, makeStyles, TextField, Toolbar, Typography, CircularProgress } from "@material-ui/core"
 import HomeIcon from "@material-ui/icons/Home"
 import InfoIcon from "@material-ui/icons/Info"
 import SearchIcon from "@material-ui/icons/Search"
+import GithubIcon from "@material-ui/icons/GitHub"
 import Router from "next/router"
 import { useContext } from "react"
 import { AppContext } from "../context/AppContext"
@@ -15,8 +16,14 @@ const useStyles = makeStyles(theme => ({
       color: "white",
     },
   },
+  spinner: {
+    color: "#ffffff",
+    marginLeft: "5px",
+    marginRight: "5px",
+  },
   link: {
     cursor: "pointer",
+    textDecoration: "none",
   },
   seperator: {
     flexGrow: 1,
@@ -28,11 +35,11 @@ const useStyles = makeStyles(theme => ({
 ))
 
 const AppToolbar: React.FunctionComponent = () => {
-  const classes = useStyles();
+  const classes = useStyles()
   const context = useContext(AppContext)
 
   return(
-    <AppBar position="static">
+    <AppBar position="fixed">
       <Toolbar>
         <Link color="inherit" className={classes.link}>
           <Typography variant="h5" className={classes.title}>Search Compare</Typography>
@@ -48,6 +55,7 @@ const AppToolbar: React.FunctionComponent = () => {
           onKeyPress={(e) => e.key === "Enter" && context.runSearch(context.search)}
           InputProps={{startAdornment: <InputAdornment position="start"><SearchIcon/></InputAdornment>}}
         />
+        {context.isLoading && <CircularProgress className={classes.spinner} />}
         <div className={classes.seperator}></div>
         <IconButton
           onClick={() => Router.push("/")}
@@ -57,6 +65,15 @@ const AppToolbar: React.FunctionComponent = () => {
           aria-label="menu"
         >
           <HomeIcon/>
+        </IconButton>
+        <IconButton
+          href="https://www.github.com/breeko/search-compare"
+          edge="start"
+          className={classes.menuButton}
+          color="inherit"
+          aria-label="menu"
+        >
+          <GithubIcon/>
         </IconButton>
         <IconButton
           onClick={() => Router.push("/about")}
