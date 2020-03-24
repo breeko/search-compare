@@ -1,25 +1,27 @@
 import cheerio from "cheerio"
 import fs from "fs"
 import rp from "request-promise"
+import { parseDdg } from '../sls-search-compare/utils'
 
 const search = "ddg"
-const headers = {
-    Host: "duckduckgo.com",
-    "User-Agent":" Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:73.0) Gecko/20100101 Firefox/73.0",
-    Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-    "Accept-Language": "en-US,en;q=0.5",
-    "Accept-Encoding": "deflate,br",
-    Connection: "keep-alive",
-    Cookie: "5=1",
-    "Upgrade-Insecure-Requests": "1",
-    DNT: "1",
-    "Cache-Control": " max-age=0",
-    TE: "Trailers"
-}
+// const headers = {
+//     Host: "duckduckgo.com",
+//     "User-Agent":" Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36",
+    // Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+    // "Accept-Language": "en-US,en;q=0.5",
+    // Connection: "keep-alive",
+    // Cookie: "5=1",
+    // "Upgrade-Insecure-Requests": "1",
+    // DNT: "1",
+    // "Cache-Control": " max-age=0",
+    // TE: "Trailers"
+// }
 
 // const url = `https://cors-anywhere.herokuapp.com/https://duckduckgo.com/html/?q=${encodeURI(search)}`
-const url = `https://duckduckgo.com/html/?q=${encodeURI(search)}`
-rp(url, {headers}).promise().then(o => fs.writeFileSync("out-ddg.html", o))
+// console.log(url)
+// const url = `https://duckduckgo.com/html/?q=${encodeURI(search)}`
+// rp(url, {headers}).promise().then(o => fs.writeFileSync("out-ddg.html", o))
+// rp(url, {headers, rejectUnauthorized: false}).promise().then(console.log)
 
 // const url = "./out-ddg.html"
 // const html = fs.readFileSync(url, "utf8")
@@ -46,3 +48,17 @@ const out: SearchResult[] = []
 // })
 
 console.log(out)
+
+const url = `https://duckduckgo.com/?q=${encodeURI(search)}`
+const headers = {
+    Host: "duckduckgo.com",
+    "User-Agent":" Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36",
+    Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+    "Accept-Language": "en-US,en;q=0.5",
+    "Accept-Encoding": "none",
+    Connection: "keep-alive",
+    "Upgrade-Insecure-Requests": 1,
+    TE: "Trailers",
+}
+
+rp(url, {headers, rejectUnauthorized: false}).promise().then(out => fs.writeFileSync("scrap/out-ddg-orig.html", out)).then(() => console.log("done :-)"))//.then(parseDdg).then(console.log)

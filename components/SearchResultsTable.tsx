@@ -1,29 +1,53 @@
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, makeStyles } from '@material-ui/core'
 import React from "react"
-import { Grid, List, ListItem, Typography } from '@material-ui/core'
+import { zip } from '../sls-search-compare/utils'
+import SearchResultCell from './SearchResultCell'
 
 interface SearchResultsTableProps {
-    results: SearchResult[]
+    resultsLeft: SearchResult[]
+    resultsRight: SearchResult[]
 }
 
-const SearchResultTable: React.FunctionComponent<SearchResultsTableProps> = ({results}) => {
+const SearchResultTable: React.FunctionComponent<SearchResultsTableProps> = ({resultsLeft, resultsRight}) => {
+    if (resultsLeft.length === 0 && resultsRight.length === 0) { return null }
+
+    const results = zip(resultsLeft, resultsRight)
+    if (results.length === 0) { return null }
     return(
-        <Grid item xs={6}>
-            <List>
-                {results.map((o: SearchResult) =>
-                        <ListItem key={o.title}>
-                            <Typography>
-                                <Typography variant="h6">
-                                        <a href={o.link}>{o.title}</a>
-                                </Typography>
-                                <Typography variant="body2">
-                                    {o.desc}
-                                </Typography>
-                                
-                            </Typography>
-                        </ListItem>
+        <TableContainer component={Paper}>
+            <Table stickyHeader>
+                <TableHead>
+                    <TableRow>
+                        <TableCell align="center">
+                            Rank
+                        </TableCell>
+                        <TableCell align="center">
+                            Google
+                        </TableCell>
+                        <TableCell align="center">
+                            DuckDuckGo
+                        </TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {results.map(([left, right], idx) =>
+                        {return right !== undefined && left !== undefined &&
+                            <TableRow key={`${left.title}${right.title}`}>
+                                <TableCell component="th" scope="row" style={{width: "2%"}}>
+                                    {idx + 1}
+                                </TableCell>
+                                <TableCell style={{width: "45%"}}>
+                                    {left && <SearchResultCell title={left.title} link={left.link} desc={left.desc} tags={left.tags}/>}
+                                </TableCell>
+                                <TableCell style={{width: "45%"}}>
+                                    {right && <SearchResultCell title={right.title} link={right.link} desc={right.desc} tags={right.tags}/>}
+                                </TableCell>
+                            </TableRow>
+                        }
                     )}
-            </List>
-        </Grid>
+                </TableBody>
+            </Table>
+        </TableContainer>
     )
 }
 

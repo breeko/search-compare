@@ -7,7 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "next",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "export": "next export",
+    "deploy": "npm run build && npm run export"
   },
   "keywords": [],
   "author": "",
@@ -16,17 +18,22 @@
     "@material-ui/core": "^4.9.5",
     "@material-ui/icons": "^4.9.1",
     "@types/cheerio": "^0.22.16",
+    "@types/phantomjs": "^1.9.29",
     "@types/request-promise": "^4.1.45",
+    "@zeit/next-source-maps": "0.0.3",
     "cheerio": "^1.0.0-rc.3",
     "next": "^9.3.0",
+    "phantomjs-prebuilt": "^2.1.16",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "request": "^2.88.2",
     "request-promise": "^4.2.5",
-    "tslib": "^1.11.1"
+    "tslib": "^1.11.1",
+    "webdriverio": "^5.22.1"
   },
   "devDependencies": {
     "@types/react": "^16.9.23",
+    "serverless-plugin-typescript": "^1.1.9",
     "typescript": "^3.8.3",
     "webpack-cli": "^3.3.11"
   }

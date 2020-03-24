@@ -1,3 +1,8 @@
+# Serverless directories
+.serverless
+
+scrap
+
 # build output
 dist
 .next
@@ -13,17 +18,13 @@ test/node_modules
 *.log
 pids
 
-# coverage
-.nyc_output
-coverage
-
 # test output
 test/**/out*
 test/**/next-env.d.ts
 .DS_Store
 
 # Editors
-**/.idea
+**/.vscode
 
-# example output
-examples/**/out
+# Local Netlify folder
+.netlify
