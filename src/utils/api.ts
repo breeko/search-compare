@@ -1,6 +1,6 @@
+import cheerio from "cheerio"
 import rp from "request-promise"
-import cheerio  from 'cheerio'
-import { getTags } from './tagger'
+import { getTags } from "./tagger"
 
 const clean = (search: string) =>  search.replace(/ /g, "+").replace(/\//, "%2f")
 
@@ -11,7 +11,7 @@ export const getGoogleResults = async (search: string, numPages: number): Promis
         const url = `https://cors-anywhere.herokuapp.com/https://www.google.com/search?hl=en&start=${start}&q=${clean(search)}`
         return rp(url, {headers: {Origin: null}}).then(parseGoogleHtml)
     }))
-    
+
     return results.reduce((acc, val) => [...acc, ...val])
 }
 
@@ -27,13 +27,13 @@ const parseGoogleHtml = (raw: string): SearchResult[] => {
     const $ = cheerio.load(raw)
     const out: SearchResult[] = []
 
-    $('a').each((_a, e) =>{
+    $("a").each((_A, e) => {
         const elem = $(e)
         const href = elem.attr("href")
         const title =
             href &&
             href.startsWith("/search") &&
-            elem.parent().parent().attr('aria-level') === "3" ? elem.text() : undefined
+            elem.parent().parent().attr("aria-level") === "3" ? elem.text() : undefined
         const desc = null
         const link = null
         if (title !== undefined) {
@@ -42,23 +42,23 @@ const parseGoogleHtml = (raw: string): SearchResult[] => {
     })
 
     // answers date
-    $('h2:contains("Date Result")').each((_a, e) => {
+    $('h2:contains("Date Result")').each((_A, e) => {
         const title = $(e).next().text()
         const desc = null
         const link = null
-        if (title !== undefined && desc !== undefined && link !== undefined && title !== prevTitle){
+        if (title !== undefined && desc !== undefined && link !== undefined && title !== prevTitle) {
             out.push({title, desc, link, tags: ["answers"]})
         }
     })
 
     // answers date
-    let prevTitle = undefined
-    $('div[data-attrid="hw:/collection/events:start date"]').each((_a, e) => {
-        if ($(e).attr("role") === "heading") {       
+    let prevTitle: string
+    $('div[data-attrid="hw:/collection/events:start date"]').each((_A, e) => {
+        if ($(e).attr("role") === "heading") {
             const title = $(e).text()
             const desc = $(e).parent().parent().parent().next().text()
             const link = null
-            if (title !== undefined && desc !== undefined && link !== undefined && title !== prevTitle){
+            if (title !== undefined && desc !== undefined && link !== undefined && title !== prevTitle) {
                 out.push({title, desc, link, tags: ["answers"]})
                 prevTitle = title
             }
@@ -66,18 +66,18 @@ const parseGoogleHtml = (raw: string): SearchResult[] => {
     })
 
     // answers sites
-    $('div[data-tts="answers"]').each((_a, e) => {
+    $('div[data-tts="answers"]').each((_A, e) => {
         const title = $(e).text()
         const desc = $(e).parent().parent().next().text()
         // const linkText = $(e).parent().parent().parent().find("a").attr("href")
         // const linkUrl = linkText && linkText.match(/url=.+?(?=&)/g)
-        const link = null //linkUrl && decodeURIComponent(linkUrl[0])
-        if (title !== undefined && desc !== undefined && link !== undefined){
+        const link = null // linkUrl && decodeURIComponent(linkUrl[0])
+        if (title !== undefined && desc !== undefined && link !== undefined) {
             out.push({title, desc, link, tags: ["answers"]})
         }
     })
-    
-    $("h3").each((_a, e) => {
+
+    $("h3").each((_A, e) => {
         const title = $(e).text()
         const desc = $(e).parent().parent().next().find("span").text()
         const link = $(e).parent().attr("href")

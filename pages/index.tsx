@@ -1,19 +1,18 @@
-import { Box, Chip, CircularProgress, createStyles, Divider, makeStyles, Theme, Typography } from '@material-ui/core'
-import Paper from '@material-ui/core/Paper'
+import { Box, Chip, CircularProgress, createStyles, Divider, makeStyles, Theme, Typography } from "@material-ui/core"
+import Paper from "@material-ui/core/Paper"
 import React, { useContext } from "react"
-import Layout from '../components/Layout'
-import SearchResultsTable from "../components/SearchResultsTable"
-import { AppContext } from "../context/AppContext"
+import SearchResultsTable from "../src/components/SearchResultsTable"
+import { AppContext } from "../src/context/AppContext"
 
 interface IndexProps {
-    googleResults: SearchResult[]
-    ddgResults: SearchResult[]
-    setGoogleResults: (res: SearchResult[]) => void
-    setDdgResults: (res: SearchResult[]) => void
-    search: string
-    setSearch: (search: string) => void
-    isLoading: boolean
-    setIsLoading: (loading: boolean) => void
+  googleResults: SearchResult[]
+  ddgResults: SearchResult[]
+  setGoogleResults: (res: SearchResult[]) => void
+  setDdgResults: (res: SearchResult[]) => void
+  search: string
+  setSearch: (search: string) => void
+  isLoading: boolean
+  setIsLoading: (loading: boolean) => void
 }
 
 const Index = () => {
@@ -22,32 +21,33 @@ const Index = () => {
     const useStyles = makeStyles((theme: Theme) =>
         createStyles({
             root: {
-                flexWrap: 'wrap',
-                '& > *': {
-                    margin: theme.spacing(0.5),
-                },
+              "flexWrap": "wrap",
+              "& > *": {
+                  margin: theme.spacing(0.5),
+              },
             },
             suggestions: {
-                display: 'inline-block',
-                flexWrap: 'wrap',
-                margin: theme.spacing(0.5),
-                '& > *': {
+              "display": "inline-block",
+              "flexWrap": "wrap",
+              "margin": theme.spacing(0.5),
+                "& > *": {
                     fontSize: 14,
-                    margin: theme.spacing(0.5),    
-                }
+                    margin: theme.spacing(0.5),
+                },
+              },
             },
-        }),
+          ),
     )
     const classes = useStyles()
 
     const suggestions = {
-        general: ["ddg", "google", "fb", "st patricks in 2022",  "date of ny marathon",],
+        general: ["ddg", "google", "fb", "st patricks in 2022", "date of ny marathon"],
         news: ["2008 crisis", "corona virus"],
-        politics: ["trump", "sanders", "biden", "republicans", "democrats"],
-        shopping: ["buy tv", "best cell phone", "flights"],
+        politics: ["trump", "sanders", "biden", "republicans", "democrats", "trump russia", "sanders cuba"],
+        shopping: ["buy tv", "best cell phone", "flights", "mortgage rates"],
         conspiracy: ["are vacccines dangerous", "flat earth", "bush 9/11", "jfk assassination", "clinton body count", "moon landing"],
         entertainment: ["eminem fast song", "news guy spider man actor"],
-        programming: ["css center text", "implicits scala 3.0", "regex match .com", "tsfiddle",],
+        programming: ["css center text", "implicits scala 3.0", "regex match .com", "tsfiddle", "nextjs source map"],
     }
     return(
         <React.Fragment>
@@ -64,7 +64,7 @@ const Index = () => {
                                 label={term} onClick={() => {context.setSearch(term); context.runSearch(term)}}
                             />)
                         }
-                    </Paper>
+                    </Paper>,
                 )}
             </Box>
             <Divider />
@@ -78,5 +78,5 @@ const Index = () => {
     )
 }
 
-const Inner = () => <Layout><Index/></Layout>
+const Inner = () => <React.Fragment><Index/></React.Fragment>
 export default Inner

@@ -1,7 +1,7 @@
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, makeStyles } from '@material-ui/core'
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@material-ui/core"
 import React from "react"
-import { zip } from '../sls-search-compare/utils'
-import SearchResultCell from './SearchResultCell'
+import { zip } from "../../sls-search-compare/utils"
+import SearchResultCell from "./SearchResultCell"
 
 interface SearchResultsTableProps {
     resultsLeft: SearchResult[]
@@ -31,19 +31,30 @@ const SearchResultTable: React.FunctionComponent<SearchResultsTableProps> = ({re
                 </TableHead>
                 <TableBody>
                     {results.map(([left, right], idx) =>
-                        {return right !== undefined && left !== undefined &&
+                      right !== undefined && left !== undefined &&
                             <TableRow key={`${left.title}${right.title}`}>
                                 <TableCell component="th" scope="row" style={{width: "2%"}}>
                                     {idx + 1}
                                 </TableCell>
                                 <TableCell style={{width: "45%"}}>
-                                    {left && <SearchResultCell title={left.title} link={left.link} desc={left.desc} tags={left.tags}/>}
+                                    {left &&
+                                    <SearchResultCell
+                                      title={left.title}
+                                      link={left.link}
+                                      desc={left.desc}
+                                      tags={left.tags}
+                                    />}
                                 </TableCell>
                                 <TableCell style={{width: "45%"}}>
-                                    {right && <SearchResultCell title={right.title} link={right.link} desc={right.desc} tags={right.tags}/>}
+                                    {right &&
+                                    <SearchResultCell
+                                      title={right.title}
+                                      link={right.link}
+                                      desc={right.desc}
+                                      tags={right.tags}
+                                    />}
                                 </TableCell>
-                            </TableRow>
-                        }
+                            </TableRow>,
                     )}
                 </TableBody>
             </Table>
