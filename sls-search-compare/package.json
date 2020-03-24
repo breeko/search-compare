@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@types/request-promise": "^4.1.45",
+    "aws-lambda": "^1.0.5",
     "cheerio": "^1.0.0-rc.3",
     "request-promise": "^4.2.5",
     "source-map-support": "^0.5.10"
